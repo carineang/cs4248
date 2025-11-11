@@ -11,7 +11,7 @@
 ENV_NAME="mt_env" # Ensure this matches the name in env-setup-miniconda.sh
 
 # Dataset paths - customize these as needed
-INPUT_DATASET="/home/n/ntasang/cs4248-project-mt/tokenized_dataset/WMT22_Train_Merged"
+INPUT_DATASET="/your/path/to/tokenized_dataset/WMT22_Train_Merged"
 # Save to: /home/m/man0302/... (your user directory)
 OUTPUT_SUBSET="/your/path/to/tokenized_dataset/WMT22_Train_Merged_5pct"
 
