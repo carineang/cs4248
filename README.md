@@ -82,7 +82,15 @@ python verify_subset.py --original ./tokenized_dataset/WMT22_Train_Merged --subs
    - `mT5-small-training-multi-gpu.yaml` - Only ALMA_Human_Parallel dataset training, multi-GPU
    - `mT5-small-training-multi-gpu-lora.yaml` - LoRA fine-tuning with only ALMA_Human_Parallel dataset, multi-GPU
 
-3. **Configuring mT5-large Training**:
+3. **Configuring mT5-base Training**:
+   
+   For mT5-base model training to reproduce our results, you can use the following pre-configured options:
+   - `mT5-base-training-multi-gpu-5pct.yaml` - Training with 5% WMT subset + ALMA dataset
+   - `mT5-base-training-lora-multi-gpu-5pc.yaml` - LoRA fine-tuning with 5% WMT subset + ALMA dataset
+   - `mT5-base-training-multi-gpu.yaml` - Only ALMA_Human_Parallel dataset training, multi-GPU
+   - `mT5-base-training-lora-multi-gpu.yaml` - LoRA fine-tuning with only ALMA_Human_Parallel dataset, multi-GPU
+
+4. **Configuring mT5-large Training**:
    
    For mT5-large model training to reproduce our results, you can use the following pre-configured options:
    - `mT5-large-training-multi-gpu-5pct.yaml` - Training with 5% WMT subset + ALMA dataset
@@ -90,7 +98,7 @@ python verify_subset.py --original ./tokenized_dataset/WMT22_Train_Merged --subs
    - `mT5-large-training-multi-gpu.yaml` - Only ALMA_Human_Parallel dataset training, multi-GPU
    - `mT5-large-training-lora-multi-gpu.yaml` - LoRA fine-tuning with only ALMA_Human_Parallel dataset, multi-GPU
 
-4. Available pre-configured options:
+5. Available pre-configured options:
    - `mT5-small-training-multi-gpu.yaml` - Small model, multi-GPU
    - `mT5-base-training-multi-gpu.yaml` - Base model, multi-GPU  
    - `mT5-large-training-multi-gpu.yaml` - Large model, multi-GPU
