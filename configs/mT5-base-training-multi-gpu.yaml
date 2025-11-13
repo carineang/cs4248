@@ -1,5 +1,4 @@
 training_dataset_paths: 
-  - "./tokenized_dataset/WMT22_Train_Merged_5pct" 
   - "./tokenized_dataset/ALMA_Human_Parallel"
 evaluation_dataset_paths:
   - "./tokenized_dataset/Tatoeba"
