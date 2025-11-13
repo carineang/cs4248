@@ -161,8 +161,8 @@ def main():
 Examples:
   # Verify subset against original
   python verify_subset.py \\
-    --original /home/n/ntasang/cs4248-project-mt/tokenized_dataset/WMT22_Train_Merged \\
-    --subset /home/n/ntasang/cs4248-project-mt/tokenized_dataset/WMT22_Train_Merged_5pct
+    --original /your/path/to/tokenized_dataset/WMT22_Train_Merged \\
+    --subset /your/path/to/tokenized_dataset/WMT22_Train_Merged_5pct
 
   # Verify and show 5 sample records
   python verify_subset.py \\
