@@ -45,6 +45,9 @@ sbatch tokenizer/chunk_merging.sh
 ```
 
 #### (Optional) Create Dataset Subset
+
+**Note**: You can use our WMT file path to save time and easily reproduce the subset. Edit `create_subset.sh` and set `INPUT_DATASET="/home/n/ntasang/cs4248-project-mt/tokenized_dataset/WMT22_Train_Merged"` (this path is already set as default in the script).
+
 ```bash
 # Create a 5% subset
 bash create_subset.sh
@@ -68,13 +71,27 @@ python verify_subset.py --original ./tokenized_dataset/WMT22_Train_Merged --subs
    cp configs/mT5-base-training-multi-gpu.yaml configs/training.yaml
    # Edit training.yaml with your settings
    ```
+   
+   **Tip**: The `-5pct` config files serve as examples for training with dataset subsets. You can use them as reference when creating configs for subset training with other models.
 
-2. Available pre-configured options:
+2. **Configuring mT5-small Training**:
+   
+   For mT5-small model training to reproduce our results, you can use the following pre-configured options:
+   - `mT5-small-training-multi-gpu-5pct.yaml` - Training with 5% WMT subset + ALMA dataset
+   - `mT5-small-training-multi-gpu-lora-5pct.yaml` - LoRA fine-tuning with 5% WMT subset + ALMA dataset
+   - `mT5-small-training-multi-gpu.yaml` - Only ALMA_Human_Parallel dataset training, multi-GPU
+   - `mT5-small-training-multi-gpu-lora.yaml` - LoRA fine-tuning with only ALMA_Human_Parallel dataset, multi-GPU
+
+3. Available pre-configured options:
    - `mT5-small-training-multi-gpu.yaml` - Small model, multi-GPU
    - `mT5-base-training-multi-gpu.yaml` - Base model, multi-GPU  
    - `mT5-large-training-multi-gpu.yaml` - Large model, multi-GPU
    - `mT5-*-training-lora-multi-gpu.yaml` - LoRA fine-tuning versions
    - `mT5-large-training-single-gpu.yaml` - Large model, single GPU
+   - `mT5-small-training-multi-gpu-5pct.yaml` - Small model with 5% WMT subset + ALMA dataset
+   - `mT5-small-training-multi-gpu-lora-5pct.yaml` - Small model with LoRA, 5% WMT subset + ALMA dataset
+   
+   **Note on 5pct configs**: The `-5pct` config files use both `ALMA_Human_Parallel` and `WMT22_Train_Merged_5pct` datasets for training. You can reference these configs as templates to create similar configurations for other models (base, large, etc.) by copying and modifying the dataset paths and model name accordingly.
 
 ### Run Training
 
@@ -86,11 +103,18 @@ sbatch train_single_gpu.sh
 ```
 
 #### Multi-GPU Training
+
+**Important**: Before running, edit `train_multi_gpu.sh` and change the `--config` parameter on line 48 to point to your desired config file. For example:
+- To use the 5pct config: `--config ./configs/mT5-small-training-multi-gpu-5pct.yaml`
+- To use a custom config: `--config ./configs/your-config.yaml`
+
 ```bash
 bash train_multi_gpu.sh
 # Or submit via SLURM
 sbatch train_multi_gpu.sh
 ```
+
+**Note**: When running `train_multi_gpu.sh`, ensure that the output/logs show 2 GPUs are being used. The script will display GPU information and the number of detected CUDA devices (should show "Detected 2 visible CUDA device(s)"). Check the output file to verify both GPUs are used during training.
 
 #### Manual Training
 ```bash
@@ -116,8 +140,17 @@ python inference.py \
 ```
 
 ### SLURM Inference
+
+**Important**: Before running, edit `inference.sh` and update the following variables (around lines 31-34):
+
+- `SRC_FILE`: Path to your source file containing Chinese text to translate (e.g., `"./dataset/tatoeba.zh"`)
+- `OUTPUT_FILE`: Path where translations will be saved (e.g., `"./outputs/tatoeba_mt5_large.en"`)
+- `REF_FILE`: Path to reference file for evaluation metrics (e.g., `"./dataset/tatoeba.en"`)
+- `MODEL_PATH`: Path to your trained model checkpoint (e.g., `"./models/mt5-large-finetuned-multi-gpu-alma-wmt22_0p5pct/checkpoint-2278"`)
+
+**Note**: The script will automatically compute BLEU and COMET scores after inference if a reference file is provided.
+
 ```bash
-# Edit paths in inference.sh
 sbatch inference.sh
 ```
 
